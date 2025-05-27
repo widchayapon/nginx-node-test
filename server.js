@@ -16,6 +16,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.get('/', (req, res) => {
+    console.log("request is coming2!!"); // ควรพิมพ์ log นี้เมื่อเข้าถึง '/'
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // ตั้งค่า route สำหรับ /test
 app.get('/test', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'test.html'));
