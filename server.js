@@ -13,11 +13,9 @@ app.use(cors());
 // ตั้งค่า route '/' 
 app.get('/', (req, res) => {
     console.log("request is coming!!"); // ควรพิมพ์ log นี้เมื่อเข้าถึง '/'
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.get('/', (req, res) => {
-    console.log("request is coming2!!"); // ควรพิมพ์ log นี้เมื่อเข้าถึง '/'
+    console.log("request is coming!!"); // ควรพิมพ์ log นี้เมื่อเข้าถึง '/'
+    console.log("request is coming!!"); // ควรพิมพ์ log นี้เมื่อเข้าถึง '/'
+    console.log("request is coming!!"); // ควรพิมพ์ log นี้เมื่อเข้าถึง '/'
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
