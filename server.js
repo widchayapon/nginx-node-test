@@ -4,6 +4,25 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 
+function sum(a, b) {
+    const result = a + b;
+    console.log('Result is:', result);
+    return result;
+}
+
+function add(a, b) {
+    const result = a + b;
+    console.log('Result is:', result);
+    return result;
+}
+
+function total(x, y) {
+    const result = x + y;
+    console.log('Result is:', result);
+    return result;
+}
+
+
 // ใช้ cors
 app.use(cors());
 
