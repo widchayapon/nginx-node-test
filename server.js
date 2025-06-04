@@ -4,31 +4,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 
-// ✅ ฟังก์ชันที่มี duplicated block (SonarQube เจอแน่)
-function calcA() {
-    const a = 10;
-    const b = 20;
-    const sum = a + b;
-    console.log('Sum A:', sum);
-    return sum;
-}
-
-function calcB() {
-    const a = 10;
-    const b = 20;
-    const sum = a + b;
-    console.log('Sum A:', sum);
-    return sum;
-}
-
-function calcC() {
-    const a = 10;
-    const b = 20;
-    const sum = a + b;
-    console.log('Sum A:', sum);
-    return sum;
-}
-
 const isDev = process.env.NODE_ENV !== 'production';
 
 app.use(cors({
