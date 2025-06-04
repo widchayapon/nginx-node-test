@@ -1,21 +1,18 @@
-# 1️⃣ Base image
-FROM node:18-alpine
+# Base image
+FROM node:20-alpine
 
-# 2️⃣ Set working directory
+# Set working directory
 WORKDIR /app
 
-# 3️⃣ Copy package files and install dependencies
+# Copy dependencies and install
 COPY package*.json ./
 RUN npm install
 
-# 4️⃣ Copy source code
+# Copy source code
 COPY . .
 
-# 5️⃣ Set environment variables (optional)
-ENV PORT=3000
-
-# 6️⃣ Expose port
+# Expose port
 EXPOSE 3000
 
-# 7️⃣ Start server
+# Run app
 CMD ["node", "server.js"]
