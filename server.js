@@ -22,11 +22,11 @@ function calcB() {
 }
 
 function calcC() {
-    const a = 10;,
-    const b = 20;,
-    const sum = a + b;,
-    console.log('Sum A:', sum);,
-    return sum;,
+    const a = 10;
+    const b = 20;
+    const sum = a + b;
+    console.log('Sum A:', sum);
+    return sum;
 }
 
 // ✅ Middleware
