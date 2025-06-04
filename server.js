@@ -1,51 +1,63 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000; // ❌ Hardcoded port แทนการใช้ process.env.PORT
 const cors = require('cors');
 
-// ✅ ฟังก์ชันที่มี duplicated block (SonarQube เจอแน่)
+// ❌ Duplicate Logic with slight variations
 function calcA() {
-    const a = 10;
-    const b = 20;
+    const a = 5;
+    const b = 15;
     const sum = a + b;
     console.log('Sum A:', sum);
     return sum;
 }
 
 function calcB() {
-    const a = 10;
-    const b = 20;
+    const a = 5;
+    const b = 15;
     const sum = a + b;
-    console.log('Sum A:', sum);
+    console.log('Sum B:', sum);
     return sum;
 }
 
 function calcC() {
-    const a = 10;
-    const b = 20;
+    const a = 5;
+    const b = 15;
     const sum = a + b;
-    console.log('Sum A:', sum);
+    console.log('Sum C:', sum);
     return sum;
 }
 
-// ✅ Middleware
+// ❌ Unused function
+function neverUsed() {
+    console.log("I am never used!");
+}
+
+// ❌ Middleware ไม่ใช้ try-catch หรือ error handling ใดๆ
 app.use(cors());
 
-// ✅ Route หลัก
+// ❌ Route ไม่มี validation หรือ error handler
 app.get('/', (req, res) => {
-    console.log("request is coming!!");
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    console.log("Incoming request...");
+    res.sendFile(path.join(__dirname + '/public/index.html')); // ❌ Path concat แบบอันตราย
 });
 
-app.get('/test', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'test.html'));
+app.get('/test', async (req, res) => {
+    // ❌ Async ใช้โดยไม่จำเป็น และไม่มี await
+    res.sendFile(path.join(__dirname + '/public/test.html'));
 });
 
-// ✅ Static files
-app.use(express.static(path.join(__dirname, 'public')));
+// ❌ Static path ซ้ำกับที่ใช้ด้านบนแบบไม่ได้ abstract ออกมา
+app.use(express.static(__dirname + '/public')); // ❌ ใช้ string concat แบบไม่ปลอดภัย
 
-// ✅ Start server
+// ❌ ไม่มี error handler global
+// ❌ ไม่มี log level เช่น debug/info/error
+
+// ❌ ตัวแปรไม่ได้ใช้
+const debug = false;
+
+// ❌ Callback ไม่เช็ค error
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log("Server running at http://localhost:" + PORT);
 });
