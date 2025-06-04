@@ -29,8 +29,13 @@ function calcC() {
     return sum;
 }
 
+const isDev = process.env.NODE_ENV !== 'production';
+
+app.use(cors({
+  origin: isDev ? '*' : 'https://yourdomain.com',
+}));
 // ✅ Middleware
-app.use(cors());
+// app.use(cors());
 
 // ✅ Route หลัก
 app.get('/', (req, res) => {
