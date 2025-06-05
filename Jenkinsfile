@@ -48,6 +48,9 @@ pipeline {
         }
 
         stage('Deploy') {
+            when {
+                branch 'main'
+            }
             steps {
                 sh '''
                     docker compose down --remove-orphans || true
