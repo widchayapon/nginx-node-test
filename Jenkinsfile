@@ -11,19 +11,23 @@ pipeline {
     }
 
     stages {
+
+        // ----------------------
+        // CI: Clone, Test, Sonar
+        // ----------------------
         stage('Clone') {
             steps {
                 git url: 'https://github.com/widchayapon/nginx-node-test.git', branch: 'main'
             }
         }
 
-        stage('Install') {
+        stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
 
-        stage('Test') {
+        stage('Test with Coverage') {
             steps {
                 sh 'npm test -- --coverage'
             }
@@ -47,15 +51,28 @@ pipeline {
             }
         }
 
+        // ----------------------
+        // Build image (local only)
+        // ----------------------
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t nginx-node-test:latest .'
+            }
+        }
+
+        // ----------------------
+        // Deploy using local image
+        // ----------------------
         stage('Deploy') {
             steps {
                 sh '''
                     docker compose down --remove-orphans || true
-                    docker compose up -d --build
+                    docker compose up -d
                 '''
             }
         }
     }
+
     post {
         success {
             echo '✅ Build success and deployed!'
@@ -66,5 +83,5 @@ pipeline {
         always {
             echo '📦 Build finished (success or fail).'
         }
-    }  
+    }
 }

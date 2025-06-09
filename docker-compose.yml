@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   web:
-    build: .
-    container_name: express-app
+    image: nginx-node-test:latest  # ใช้ image ที่ build แล้วในเครื่อง
     ports:
       - "3000:3000"
     restart: always
