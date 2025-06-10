@@ -56,7 +56,14 @@ pipeline {
         // ----------------------
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t nginx-node-test:latest .'
+                // sh 'docker build -t nginx-node-test:latest .'
+                sh '''
+                    docker pull nginx-node-test:latest || true
+
+                    docker build \
+                    --cache-from=nginx-node-test:latest \
+                    -t nginx-node-test:latest .
+                '''
             }
         }
 
