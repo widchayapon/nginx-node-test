@@ -49,6 +49,28 @@ pipeline {
             }
         }
 
+        // stage('Run Tests in Parallel') {
+        //     parallel {
+        //         stage('Unit Test') {
+        //             steps {
+        //                 sh 'npm run test:unit'
+        //             }
+        //         }
+
+        //         stage('Integration Test') {
+        //             steps {
+        //                 sh 'npm run test:integration'
+        //             }
+        //         }
+
+        //         stage('Lint') {
+        //             steps {
+        //                 sh 'npm run lint'
+        //             }
+        //         }
+        //     }
+        // }        
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_ENV}") {
