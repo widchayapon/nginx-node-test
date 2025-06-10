@@ -1,18 +1,41 @@
+# # Base image
+# FROM node:20-alpine
+
+# # Set working directory
+# WORKDIR /app
+
+# # Copy dependencies and install
+# COPY package*.json ./
+# RUN npm install
+
+# # Copy source code
+# COPY . .
+
+# # Expose port
+# EXPOSE 3000
+
+# # Run app
+# CMD ["node", "server.js"]
+
 # Base image
 FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy dependencies and install
-COPY package*.json ./
-RUN npm install
+# Copy only dependency files first to optimize cache
+COPY package.json ./
+COPY package-lock.json ./
 
-# Copy source code
+# Install dependencies using npm ci
+RUN npm ci --omit=dev && npm cache clean --force
+
+# Copy application source code
 COPY . .
 
-# Expose port
+# Expose app port
 EXPOSE 3000
 
-# Run app
+# Run the app
 CMD ["node", "server.js"]
+
