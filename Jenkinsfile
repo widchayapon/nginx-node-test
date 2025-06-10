@@ -103,6 +103,19 @@ pipeline {
             }
         }
 
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-cred', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                        docker tag nginx-node-test:latest tar3kom/nginx-node-test:latest
+                        docker push tar3kom/nginx-node-test:latest
+                        docker logout
+                    '''
+                }
+            }
+        }
+
         // ----------------------
         // Deploy using local image
         // ----------------------
