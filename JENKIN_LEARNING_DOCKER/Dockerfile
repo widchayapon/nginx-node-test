@@ -38,6 +38,11 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
     apt-get update && \
     apt-get install -y docker-ce-cli
 
+# ติดตั้ง kubectl (แบบ dynamic version)
+RUN KUBECTL_VERSION=$(curl -Ls https://dl.k8s.io/release/stable.txt) && \
+    curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" && \
+    chmod +x kubectl && mv kubectl /usr/local/bin/kubectl
+
 # # ✅ ติดตั้ง SonarScanner CLI เวอร์ชัน 6.2.1.4610 จาก GitHub (.zip)
 # RUN curl -L -o /tmp/sonar-scanner.zip https://github.com/SonarSource/sonar-scanner-cli/releases/download/6.2.1.4610/sonar-scanner-cli-6.2.1.4610.zip && \
 #     unzip /tmp/sonar-scanner.zip -d /opt && \
