@@ -12,8 +12,10 @@ services:
     environment:
       - JAVA_OPTS=-Djenkins.model.Jenkins.slaveAgentPort=50000
     volumes:
-      - jenkins_data:/var/jenkins_home
+      - "${HOME}/jenkins_data:/var/jenkins_home"
       - /var/run/docker.sock:/var/run/docker.sock
+      - "${HOME}/.kube:/root/.kube"
+      - "${HOME}/.minikube:/root/.minikube"
     user: root
     networks:
       - cicd_net
