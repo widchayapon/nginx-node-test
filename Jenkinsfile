@@ -8,6 +8,10 @@ pipeline {
     environment {
         SONARQUBE_ENV = 'sonar'
         SONAR_TOKEN   = credentials('sonar-token')
+        DEPLOYMENT_NAME   = 'nginx-node-test-deployment'
+        DOCKER_IMAGE_TAG  = 'tar3kom/nginx-node-test:latest'
+        NAMESPACE         = 'default'
+        CONTAINER_NAME    = 'nginx-node-test'
     }
 
     stages {
@@ -131,6 +135,11 @@ pipeline {
             steps {
                 sh '''
                     kubectl get nodes
+                    echo "🔄 Deploying $DOCKER_IMAGE_TAG to $DEPLOYMENT_NAME"
+
+                    kubectl set image deployment/$DEPLOYMENT_NAME $CONTAINER_NAME=$DOCKER_IMAGE_TAG -n $NAMESPACE
+                    kubectl rollout restart deployment/$DEPLOYMENT_NAME -n $NAMESPACE
+                    kubectl rollout status deployment/$DEPLOYMENT_NAME -n $NAMESPACE
                 '''
             }
         }
