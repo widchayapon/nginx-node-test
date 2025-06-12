@@ -134,6 +134,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
+                    # แก้ไข path ใน config แล้วเก็บเป็นไฟล์ใหม่
+                    sed "s|/home/tar3kom|/root|g" /root/.kube/config > /root/.kube/config_in_container
+
+                    # ใช้ KUBECONFIG ชี้ไปที่ไฟล์ใหม่
+                    export KUBECONFIG=/root/.kube/config_in_container
                     kubectl get nodes
                     echo "🔄 Deploying $DOCKER_IMAGE_TAG to $DEPLOYMENT_NAME"
 
