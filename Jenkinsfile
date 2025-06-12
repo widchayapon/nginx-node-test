@@ -21,7 +21,7 @@ pipeline {
         // ----------------------
         stage('Clone') {
             steps {
-                git url: 'https://github.com/widchayapon/nginx-node-test.git', branch: 'main'
+                git url: 'https://github.com/widchayapon/nginx-node-test.git', branch: 'minikube_deploy'
             }
         }
 
