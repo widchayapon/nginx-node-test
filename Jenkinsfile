@@ -94,12 +94,12 @@ pipeline {
         // ----------------------
         stage('Build Docker Image') {
             steps {
-                // sh 'docker build -t nginx-node-test:latest .'
-                sh '''
-                    docker build \
-                    --cache-from=nginx-node-test:latest \
-                    -t nginx-node-test:latest .
-                '''
+                sh 'docker build -t nginx-node-test:latest .'
+                // sh '''
+                //     docker build \
+                //     --cache-from=nginx-node-test:latest \
+                //     -t nginx-node-test:latest .
+                // '''
             }
         }
 
@@ -119,11 +119,18 @@ pipeline {
         // ----------------------
         // Deploy using local image
         // ----------------------
+        // stage('Deploy') {
+        //     steps {
+        //         sh '''
+        //             docker compose down --remove-orphans || true
+        //             docker compose up -d
+        //         '''
+        //     }
+        // }
         stage('Deploy') {
             steps {
                 sh '''
-                    docker compose down --remove-orphans || true
-                    docker compose up -d
+                    kubectl get nodes
                 '''
             }
         }
