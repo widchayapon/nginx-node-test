@@ -115,6 +115,13 @@ pipeline {
                 }
             }
         }
+        stage('Trivy Scan') {
+            steps {
+                sh '''
+                docker exec trivy trivy image tar3kom/nginx-node-test:latest || true
+                '''
+            }
+        }
 
         // ----------------------
         // Deploy using local image
