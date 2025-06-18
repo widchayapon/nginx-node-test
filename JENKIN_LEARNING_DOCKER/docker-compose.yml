@@ -49,6 +49,16 @@ services:
       - sonarqube_logs:/opt/sonarqube/logs
     networks:
       - cicd_net
+  
+  trivy:
+    container_name: trivy
+    image: aquasec/trivy:latest
+    entrypoint: ["tail", "-f", "/dev/null"]  # รันไว้เฉย ๆ เพื่อให้ exec เข้าไปใช้ได้
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - trivy_cache:/root/.cache/
+    networks:
+      - cicd_net
 
 volumes:
   jenkins_data:
@@ -56,6 +66,7 @@ volumes:
   sonarqube_data:
   sonarqube_extensions:
   sonarqube_logs:
+  trivy_cache:
 
 networks:
   cicd_net:
