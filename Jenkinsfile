@@ -113,7 +113,8 @@ pipeline {
                 sh '''
                     docker run --rm \
                     -v ${WORKSPACE}:/project \
-                    aquasec/trivy:latest config /project \
+                    aquasec/trivy:latest fs /project \
+                    --scanners config \
                     --exit-code 0 \
                     --severity LOW,MEDIUM,HIGH,CRITICAL
                 '''
