@@ -96,7 +96,7 @@ pipeline {
             steps {
                 sh '''
                     docker run --rm \
-                    -v $PWD:/project \
+                    -v ${WORKSPACE}:/project \
                     aquasec/trivy:latest fs /project \
                     --scanners secret \
                     --exit-code 0 \
@@ -112,7 +112,7 @@ pipeline {
             steps {
                 sh '''
                     docker run --rm \
-                    -v $PWD:/project \
+                    -v ${WORKSPACE}:/project \
                     aquasec/trivy:latest config /project \
                     --exit-code 0 \
                     --severity LOW,MEDIUM,HIGH,CRITICAL
