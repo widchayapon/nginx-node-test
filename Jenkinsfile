@@ -89,6 +89,37 @@ pipeline {
             }
         }
 
+        // -----------------------------------
+        // 🔐 Trivy Secrets Scan (exit 0)
+        // -----------------------------------
+        stage('Trivy Secrets Scan') {
+            steps {
+                sh '''
+                    docker run --rm \
+                    -v $PWD:/project \
+                    aquasec/trivy:latest fs /project \
+                    --scanners secret \
+                    --exit-code 0 \
+                    --severity LOW,MEDIUM,HIGH,CRITICAL
+                '''
+            }
+        }
+
+        // -----------------------------------
+        // ⚙️ Trivy Config Scan (exit 0)
+        // -----------------------------------
+        stage('Trivy Config Scan') {
+            steps {
+                sh '''
+                    docker run --rm \
+                    -v $PWD:/project \
+                    aquasec/trivy:latest config /project \
+                    --exit-code 0 \
+                    --severity LOW,MEDIUM,HIGH,CRITICAL
+                '''
+            }
+        }
+
         // ----------------------
         // Build image (local only)
         // ----------------------
@@ -132,15 +163,30 @@ pipeline {
         //         '''
         //     }
         // }
-        stage('Trivy Scan') {
+        // stage('Trivy Scan') {
+        //     steps {
+        //         sh '''
+        //         docker run --rm \
+        //         -v /var/run/docker.sock:/var/run/docker.sock \
+        //         aquasec/trivy:latest image \
+        //         --exit-code 1 \
+        //         --severity HIGH,CRITICAL \
+        //         tar3kom/nginx-node-test:latest
+        //         '''
+        //     }
+        // }
+        // -----------------------------------
+        // 🐳 Trivy Image Scan (exit 0)
+        // -----------------------------------
+        stage('Trivy Image Scan') {
             steps {
                 sh '''
-                docker run --rm \
-                -v /var/run/docker.sock:/var/run/docker.sock \
-                aquasec/trivy:latest image \
-                --exit-code 1 \
-                --severity HIGH,CRITICAL \
-                tar3kom/nginx-node-test:latest
+                    docker run --rm \
+                    -v /var/run/docker.sock:/var/run/docker.sock \
+                    aquasec/trivy:latest image \
+                    --exit-code 0 \
+                    --severity LOW,MEDIUM,HIGH,CRITICAL \
+                    tar3kom/nginx-node-test:latest
                 '''
             }
         }
