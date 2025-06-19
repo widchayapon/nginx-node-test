@@ -89,6 +89,15 @@ pipeline {
             }
         }
 
+        stage('🔎 Debug Trivy Config Path') {
+            steps {
+                sh '''
+                    echo "🔍 Jenkins WORKSPACE = $WORKSPACE"
+                    docker run --rm -v $WORKSPACE:/project alpine ls -al /project
+                '''
+            }
+        }
+
         // -----------------------------------
         // 🔐 Trivy Secrets Scan (exit 0)
         // -----------------------------------
