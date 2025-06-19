@@ -115,10 +115,17 @@ pipeline {
                 }
             }
         }
+        // stage('Trivy Scan') {
+        //     steps {
+        //         sh '''
+        //         docker exec trivy trivy image tar3kom/nginx-node-test:latest || true
+        //         '''
+        //     }
+        // }
         stage('Trivy Scan') {
             steps {
                 sh '''
-                docker exec trivy trivy image tar3kom/nginx-node-test:latest || true
+                docker exec trivy trivy image tar3kom/nginx-node-test:latest
                 '''
             }
         }
