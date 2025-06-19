@@ -122,10 +122,22 @@ pipeline {
         //         '''
         //     }
         // }
+        // stage('Trivy Scan') {
+        //     steps {
+        //         sh '''
+        //         docker exec trivy trivy image \
+        //         --exit-code 1 \
+        //         --severity HIGH,CRITICAL \
+        //         tar3kom/nginx-node-test:latest
+        //         '''
+        //     }
+        // }
         stage('Trivy Scan') {
             steps {
                 sh '''
-                docker exec trivy trivy image \
+                docker run --rm \
+                -v /var/run/docker.sock:/var/run/docker.sock \
+                aquasec/trivy:latest image \
                 --exit-code 1 \
                 --severity HIGH,CRITICAL \
                 tar3kom/nginx-node-test:latest
