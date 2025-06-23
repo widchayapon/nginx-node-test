@@ -110,9 +110,10 @@ pipeline {
                 stage('Trivy Secrets Scan') {
                     steps {
                         sh '''
+                            cd $WORKSPACE
                             ls -al $WORKSPACE
                             docker run --rm -u 0 \
-                            -v ${WORKSPACE}:/project \
+                            -v "$(pwd)":/project \
                             aquasec/trivy:latest fs /project \
                             --scanners secret \
                             --exit-code 0 \
@@ -124,9 +125,10 @@ pipeline {
                 stage('Trivy Config Scan') {
                     steps {
                         sh '''
+                            cd $WORKSPACE
                             ls -al $WORKSPACE
                             docker run --rm -u 0 \
-                            -v ${WORKSPACE}:/project \
+                            -v "$(pwd)":/project \
                             aquasec/trivy:latest fs /project \
                             --scanners misconfig \
                             --exit-code 0 \
