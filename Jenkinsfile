@@ -89,47 +89,6 @@ pipeline {
             }
         }
 
-        // stage('🔎 Debug Trivy Config Path') {
-        //     steps {
-        //         sh '''
-        //             echo "🔍 Jenkins WORKSPACE = $WORKSPACE"
-        //             docker run --rm -v $WORKSPACE:/project alpine ls -al /project
-        //         '''
-        //     }
-        // }
-
-        // -----------------------------------
-        // 🔐 Trivy Secrets Scan (exit 0)
-        // -----------------------------------
-        // stage('Trivy Secrets Scan') {
-        //     steps {
-        //         sh '''
-        //             docker run --rm \
-        //             -v ${WORKSPACE}:/project \
-        //             aquasec/trivy:latest fs /project \
-        //             --scanners secret \
-        //             --exit-code 0 \
-        //             --severity LOW,MEDIUM,HIGH,CRITICAL
-        //         '''
-        //     }
-        // }
-
-        // -----------------------------------
-        // ⚙️ Trivy Config Scan (exit 0)
-        // -----------------------------------
-        // stage('Trivy Config Scan') {
-        //     steps {
-        //         sh '''
-        //             docker run --rm \
-        //             -v ${WORKSPACE}:/project \
-        //             aquasec/trivy:latest fs /project \
-        //             --scanners misconfig \
-        //             --exit-code 0 \
-        //             --severity LOW,MEDIUM,HIGH,CRITICAL
-        //         '''
-        //     }
-        // }
-
         // ----------------------
         // Build image (local only)
         // ----------------------
@@ -156,50 +115,6 @@ pipeline {
                 }
             }
         }
-        // stage('Trivy Scan') {
-        //     steps {
-        //         sh '''
-        //         docker exec trivy trivy image tar3kom/nginx-node-test:latest || true
-        //         '''
-        //     }
-        // }
-        // stage('Trivy Scan') {
-        //     steps {
-        //         sh '''
-        //         docker exec trivy trivy image \
-        //         --exit-code 1 \
-        //         --severity HIGH,CRITICAL \
-        //         tar3kom/nginx-node-test:latest
-        //         '''
-        //     }
-        // }
-        // stage('Trivy Scan') {
-        //     steps {
-        //         sh '''
-        //         docker run --rm \
-        //         -v /var/run/docker.sock:/var/run/docker.sock \
-        //         aquasec/trivy:latest image \
-        //         --exit-code 1 \
-        //         --severity HIGH,CRITICAL \
-        //         tar3kom/nginx-node-test:latest
-        //         '''
-        //     }
-        // }
-        // -----------------------------------
-        // 🐳 Trivy Image Scan (exit 0)
-        // -----------------------------------
-        // stage('Trivy Image Scan') {
-        //     steps {
-        //         sh '''
-        //             docker run --rm \
-        //             -v /var/run/docker.sock:/var/run/docker.sock \
-        //             aquasec/trivy:latest image \
-        //             --exit-code 0 \
-        //             --severity LOW,MEDIUM,HIGH,CRITICAL \
-        //             tar3kom/nginx-node-test:latest
-        //         '''
-        //     }
-        // }
 
         // ----------------------
         // Deploy using local image
