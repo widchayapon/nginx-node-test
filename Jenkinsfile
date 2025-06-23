@@ -98,39 +98,36 @@ pipeline {
             }
         }
 
-        parallel {
-            // -----------------------------------
-            // 🔐 Trivy Secrets Scan (exit 0)
-            // -----------------------------------
-            stage('Trivy Secrets Scan') {
-                steps {
-                    sh '''
-                        docker run --rm \
-                        -v ${WORKSPACE}:/project \
-                        aquasec/trivy:latest fs /project \
-                        --scanners secret \
-                        --exit-code 0 \
-                        --severity LOW,MEDIUM,HIGH,CRITICAL
-                    '''
+        stage('Security Scans Secret & Config') {
+            parallel {
+                stage('Trivy Secrets Scan') {
+                    steps {
+                        sh '''
+                            docker run --rm \
+                            -v ${WORKSPACE}:/project \
+                            aquasec/trivy:latest fs /project \
+                            --scanners secret \
+                            --exit-code 0 \
+                            --severity LOW,MEDIUM,HIGH,CRITICAL
+                        '''
+                    }
                 }
-            }
 
-            // -----------------------------------
-            // ⚙️ Trivy Config Scan (exit 0)
-            // -----------------------------------
-            stage('Trivy Config Scan') {
-                steps {
-                    sh '''
-                        docker run --rm \
-                        -v ${WORKSPACE}:/project \
-                        aquasec/trivy:latest fs /project \
-                        --scanners misconfig \
-                        --exit-code 0 \
-                        --severity LOW,MEDIUM,HIGH,CRITICAL
-                    '''
+                stage('Trivy Config Scan') {
+                    steps {
+                        sh '''
+                            docker run --rm \
+                            -v ${WORKSPACE}:/project \
+                            aquasec/trivy:latest fs /project \
+                            --scanners misconfig \
+                            --exit-code 0 \
+                            --severity LOW,MEDIUM,HIGH,CRITICAL
+                        '''
+                    }
                 }
             }
         }
+
 
         // ----------------------
         // Build image (local only)
