@@ -89,13 +89,23 @@ pipeline {
             }
         }
 
+        stage('Prepare for Trivy') {
+            steps {
+                sh '''
+                    rm -rf /tmp/trivy-scan
+                    mkdir -p /tmp/trivy-scan
+                    cp -r $WORKSPACE/* /tmp/trivy-scan/
+                '''
+            }
+        }
+
         stage('🔎 Debug Trivy Config Path') {
             steps {
                 sh '''
                     echo "🔍 Jenkins WORKSPACE = $WORKSPACE"
                     cd $WORKSPACE
-                    docker run --rm -v "$(pwd)":/project alpine ls -al /project
-                    docker run --rm -v "$(pwd)":/project ubuntu bash -c "ls -al /project"
+                    docker run --rm -v /tmp/trivy-scan:/project alpine ls -al /project
+                    docker run --rm -v /tmp/trivy-scan:/project ubuntu bash -c "ls -al /project"
                 '''
             }
         }
@@ -114,7 +124,7 @@ pipeline {
                             cd $WORKSPACE
                             ls -al $WORKSPACE
                             docker run --rm -u 0 \
-                            -v "$(pwd)":/project \
+                            -v /tmp/trivy-scan:/project \
                             aquasec/trivy:latest fs /project \
                             --scanners secret \
                             --exit-code 0 \
@@ -129,7 +139,7 @@ pipeline {
                             cd $WORKSPACE
                             ls -al $WORKSPACE
                             docker run --rm -u 0 \
-                            -v "$(pwd)":/project \
+                            -v /tmp/trivy-scan:/project \
                             aquasec/trivy:latest fs /project \
                             --scanners misconfig \
                             --exit-code 0 \
