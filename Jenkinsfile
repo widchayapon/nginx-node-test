@@ -92,9 +92,9 @@ pipeline {
         stage('Prepare for Trivy') {
             steps {
                 sh '''
-                    rm -rf /tmp/trivy-scan
-                    mkdir -p /tmp/trivy-scan
-                    cp -r $WORKSPACE/* /tmp/trivy-scan/
+                    rm -rf /var/jenkins_home/trivy-scan
+                    mkdir -p /var/jenkins_home/trivy-scan
+                    cp -r $WORKSPACE/* /var/jenkins_home/trivy-scan/
                 '''
             }
         }
@@ -104,8 +104,8 @@ pipeline {
                 sh '''
                     echo "🔍 Jenkins WORKSPACE = $WORKSPACE"
                     cd $WORKSPACE
-                    docker run --rm -v /tmp/trivy-scan:/project alpine ls -al /project
-                    docker run --rm -v /tmp/trivy-scan:/project ubuntu bash -c "ls -al /project"
+                    docker run --rm -v /var/jenkins_home/trivy-scan:/project alpine ls -al /project
+                    docker run --rm -v /var/jenkins_home/trivy-scan:/project ubuntu bash -c "ls -al /project"
                 '''
             }
         }
@@ -124,7 +124,7 @@ pipeline {
                             cd $WORKSPACE
                             ls -al $WORKSPACE
                             docker run --rm -u 0 \
-                            -v /tmp/trivy-scan:/project \
+                            -v /var/jenkins_home/trivy-scan:/project \
                             aquasec/trivy:latest fs /project \
                             --scanners secret \
                             --exit-code 0 \
@@ -139,7 +139,7 @@ pipeline {
                             cd $WORKSPACE
                             ls -al $WORKSPACE
                             docker run --rm -u 0 \
-                            -v /tmp/trivy-scan:/project \
+                            -v /var/jenkins_home/trivy-scan:/project \
                             aquasec/trivy:latest fs /project \
                             --scanners misconfig \
                             --exit-code 0 \
