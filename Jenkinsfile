@@ -110,7 +110,7 @@ pipeline {
                     steps {
                         sh '''
                             ls -al $WORKSPACE
-                            docker run --rm \
+                            docker run --rm -u 0 \
                             -v ${WORKSPACE}:/project \
                             aquasec/trivy:latest fs /project \
                             --scanners secret \
@@ -124,7 +124,7 @@ pipeline {
                     steps {
                         sh '''
                             ls -al $WORKSPACE
-                            docker run --rm \
+                            docker run --rm -u 0 \
                             -v ${WORKSPACE}:/project \
                             aquasec/trivy:latest fs /project \
                             --scanners misconfig \
