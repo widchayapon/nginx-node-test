@@ -98,6 +98,12 @@ pipeline {
             }
         }
 
+        stage('Pre-pull Trivy') {
+            steps {
+                sh 'docker pull aquasec/trivy:latest'
+            }
+        }
+
         stage('Security Scans Secret & Config') {
             parallel {
                 stage('Trivy Secrets Scan') {
