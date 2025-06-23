@@ -94,6 +94,7 @@ pipeline {
                 sh '''
                     echo "🔍 Jenkins WORKSPACE = $WORKSPACE"
                     docker run --rm -v $WORKSPACE:/project alpine ls -al /project
+                    docker run --rm -v $WORKSPACE:/project ubuntu bash -c "ls -al /project"
                 '''
             }
         }
