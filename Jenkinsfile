@@ -89,23 +89,23 @@ pipeline {
             }
         }
 
-        stage('Prepare for Trivy') {
-            steps {
-                sh '''
-                    rm -rf /var/jenkins_home/trivy-scan
-                    mkdir -p /var/jenkins_home/trivy-scan
-                    cp -r $WORKSPACE/* /var/jenkins_home/trivy-scan/
-                '''
-            }
-        }
+        // stage('Prepare for Trivy') {
+        //     steps {
+        //         sh '''
+        //             rm -rf /var/jenkins_home/trivy-scan
+        //             mkdir -p /var/jenkins_home/trivy-scan
+        //             cp -r $WORKSPACE/* /var/jenkins_home/trivy-scan/
+        //         '''
+        //     }
+        // }
 
         stage('🔎 Debug Trivy Config Path') {
             steps {
                 sh '''
                     echo "🔍 Jenkins WORKSPACE = $WORKSPACE"
                     cd $WORKSPACE
-                    docker run --rm -v /var/jenkins_home/trivy-scan:/project alpine ls -al /project
-                    docker run --rm -v /var/jenkins_home/trivy-scan:/project ubuntu bash -c "ls -al /project"
+                    docker run --rm -v $WORKSPACE:/project alpine ls -al /project
+                    docker run --rm -v $WORKSPACE:/project ubuntu bash -c "ls -al /project"
                 '''
             }
         }
@@ -124,7 +124,7 @@ pipeline {
                             cd $WORKSPACE
                             ls -al $WORKSPACE
                             docker run --rm -u 0 \
-                            -v /var/jenkins_home/trivy-scan:/project \
+                            -v $WORKSPACE:/project \
                             aquasec/trivy:latest fs /project \
                             --scanners secret \
                             --exit-code 0 \
@@ -139,7 +139,7 @@ pipeline {
                             cd $WORKSPACE
                             ls -al $WORKSPACE
                             docker run --rm -u 0 \
-                            -v /var/jenkins_home/trivy-scan:/project \
+                            -v $WORKSPACE:/project \
                             aquasec/trivy:latest fs /project \
                             --scanners misconfig \
                             --exit-code 0 \
