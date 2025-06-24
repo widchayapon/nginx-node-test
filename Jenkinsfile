@@ -133,8 +133,6 @@ pipeline {
                 stage('Trivy Secrets Scan') {
                     steps {
                         sh '''
-                            cd ${HOME_WORKSPACE}
-                            ls -al ${HOME_WORKSPACE}
                             docker run --rm -u 0 \
                             -v ${HOME_WORKSPACE}:/project \
                             aquasec/trivy:latest fs /project \
@@ -148,8 +146,6 @@ pipeline {
                 stage('Trivy Config Scan') {
                     steps {
                         sh '''
-                            cd ${HOME_WORKSPACE}
-                            ls -al ${HOME_WORKSPACE}
                             docker run --rm -u 0 \
                             -v ${HOME_WORKSPACE}:/project \
                             aquasec/trivy:latest fs /project \
