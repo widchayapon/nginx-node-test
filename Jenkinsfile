@@ -134,7 +134,6 @@ pipeline {
                     steps {
                         sh '''
                             docker run --rm \
-                            -v /var/run/docker.sock:/var/run/docker.sock \
                             -v ${HOME_WORKSPACE}:/project \
                             -v ${HOME_WORKSPACE}/output:/output \
                             aquasec/trivy:latest fs /project \
@@ -150,7 +149,6 @@ pipeline {
                     steps {
                         sh '''
                             docker run --rm \
-                            -v /var/run/docker.sock:/var/run/docker.sock \
                             -v ${HOME_WORKSPACE}:/project \
                             -v ${HOME_WORKSPACE}/output:/output \
                             aquasec/trivy:latest fs /project \
