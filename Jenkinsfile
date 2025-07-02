@@ -229,6 +229,7 @@ pipeline {
                     --output /output/trivy-image-report.txt \
                     tar3kom/nginx-node-test:latest
                 '''
+                archiveArtifacts artifacts: 'trivy-image-report.txt', onlyIfSuccessful: true
             }
         }
 
