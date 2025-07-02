@@ -162,13 +162,6 @@ pipeline {
             }
         }
 
-        stage('Archive Trivy Reports') {
-            steps {
-                sh "ls -a"
-                archiveArtifacts artifacts: 'output/*.txt', onlyIfSuccessful: true
-            }
-        }
-
 
         // ----------------------
         // Build image (local only)
@@ -233,14 +226,20 @@ pipeline {
                 sh '''
                     docker run --rm \
                     -v /var/run/docker.sock:/var/run/docker.sock \
-                    -v ${HOME_WORKSPACE}:/output \
+                    -v ${HOME_WORKSPACE}/output:/output \
                     aquasec/trivy:latest image \
                     --exit-code 0 \
                     --severity LOW,MEDIUM,HIGH,CRITICAL \
                     --output /output/trivy-image-report.txt \
                     tar3kom/nginx-node-test:latest
                 '''
-                archiveArtifacts artifacts: 'trivy-image-report.txt', onlyIfSuccessful: true
+            }
+        }
+
+        stage('Archive Trivy Reports') {
+            steps {
+                sh "ls -a"
+                archiveArtifacts artifacts: 'output/*.txt', onlyIfSuccessful: true
             }
         }
 
