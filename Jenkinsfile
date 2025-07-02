@@ -164,6 +164,7 @@ pipeline {
 
         stage('Archive Trivy Reports') {
             steps {
+                sh "ls -a"
                 archiveArtifacts artifacts: '*.txt', onlyIfSuccessful: true
             }
         }
