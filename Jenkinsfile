@@ -140,7 +140,7 @@ pipeline {
                             aquasec/trivy:latest fs /project \
                             --scanners secret \
                             --exit-code 0 \
-                            --severity LOW,MEDIUM,HIGH,CRITICAL
+                            --severity LOW,MEDIUM,HIGH,CRITICAL \
                             --output /output/trivy-secret-scan.txt
                         '''
                     }
@@ -156,7 +156,7 @@ pipeline {
                             aquasec/trivy:latest fs /project \
                             --scanners misconfig \
                             --exit-code 0 \
-                            --severity LOW,MEDIUM,HIGH,CRITICAL
+                            --severity LOW,MEDIUM,HIGH,CRITICAL \
                             --output /output/trivy-config-scan.txt
                         '''
                     }
