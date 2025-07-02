@@ -222,9 +222,11 @@ pipeline {
                 sh '''
                     docker run --rm \
                     -v /var/run/docker.sock:/var/run/docker.sock \
+                    -v $(pwd):/output \
                     aquasec/trivy:latest image \
                     --exit-code 0 \
                     --severity LOW,MEDIUM,HIGH,CRITICAL \
+                    --output /output/trivy-image-report.txt \
                     tar3kom/nginx-node-test:latest
                 '''
             }
