@@ -139,6 +139,7 @@ pipeline {
                             --scanners secret \
                             --exit-code 0 \
                             --severity LOW,MEDIUM,HIGH,CRITICAL
+                            --output /project/trivy-secret-scan.txt
                         '''
                     }
                 }
@@ -152,9 +153,16 @@ pipeline {
                             --scanners misconfig \
                             --exit-code 0 \
                             --severity LOW,MEDIUM,HIGH,CRITICAL
+                            --output /project/trivy-config-scan.txt
                         '''
                     }
                 }
+            }
+        }
+
+        stage('Archive Trivy Reports') {
+            steps {
+                archiveArtifacts artifacts: '*.txt', onlyIfSuccessful: true
             }
         }
 
