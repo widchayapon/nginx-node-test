@@ -167,6 +167,7 @@ pipeline {
         stage('Archive Trivy Reports') {
             steps {
                 sh "ls -a"
+                sh 'cp ${HOME_WORKSPACE}/output/*.txt $WORKSPACE/'
                 archiveArtifacts artifacts: '*.txt', onlyIfSuccessful: true
             }
         }
