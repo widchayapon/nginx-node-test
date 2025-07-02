@@ -134,12 +134,13 @@ pipeline {
                     steps {
                         sh '''
                             docker run --rm \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
                             -v ${HOME_WORKSPACE}:/project \
                             aquasec/trivy:latest fs /project \
                             --scanners secret \
                             --exit-code 0 \
                             --severity LOW,MEDIUM,HIGH,CRITICAL
-                            --output trivy-secret-scan.txt
+                            --output /project/trivy-secret-scan.txt
                         '''
                     }
                 }
@@ -148,12 +149,13 @@ pipeline {
                     steps {
                         sh '''
                             docker run --rm \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
                             -v ${HOME_WORKSPACE}:/project \
                             aquasec/trivy:latest fs /project \
                             --scanners misconfig \
                             --exit-code 0 \
                             --severity LOW,MEDIUM,HIGH,CRITICAL
-                            --output trivy-config-scan.txt
+                            --output /project/trivy-config-scan.txt
                         '''
                     }
                 }
